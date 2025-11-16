@@ -13,7 +13,22 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+
+            $table->foreignId('user_id')->constrainded()->onDelete('cascade');
+
+            // 1. Заголовок
+            $table->string('title', 255); 
+
+            // 2. Текст
+            $table->text('body');         
+            
+            // 3. Дата создания и обновления
+            // Laravel автоматически добавит поля created_at (дата создания) и updated_at
+            $table->timestamps(); 
+            
+            // Опционально: счетчики для отображения
+            $table->unsignedInteger('likes_count')->default(0); 
+            $table->unsignedInteger('dislikes_count')->default(0);
         });
     }
 
