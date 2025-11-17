@@ -72,6 +72,9 @@
             padding: 20px 0;
         }
     </style>
+
+    {{-- Дополнительные стили из шаблонов через @push('styles') --}}
+    @stack('styles')
 </head>
 <body>
 

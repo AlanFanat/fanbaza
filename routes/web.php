@@ -7,11 +7,11 @@ use App\Http\Controllers\PostController;
 
 Route::get('/', [PostController::class, 'index'])->name('main');
 
-Route::get('/info', [PageController::class, 'info'])->name('info');
+Route::get('/info', [PageController::class, 'info'])->name('info')->middleware('auth');
 
-Route::get('/create', [PostController::class, 'create'])->name('post.create');
+Route::get('/create', [PostController::class, 'create'])->middleware('auth')->name('post.create');
 
-Route::post('/posts', [PostController::class, 'store'])->name('post.store');
+Route::post('/posts', [PostController::class, 'store'])->middleware('auth')->name('post.store');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

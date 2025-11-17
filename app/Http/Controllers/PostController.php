@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class PostController extends Controller
 {
@@ -34,12 +35,11 @@ class PostController extends Controller
             'body' => 'required',
         ]);
 
-        $userId = 42; 
+        $userId = Auth::id(); 
         
         // Объединяем валидированные данные с user_id
         $dataToCreate = [
             'title' => $validatedData['title'],
-            // Переименовываем 'body' в 'content', если в БД у вас 'content'
             'body' => $validatedData['body'], 
             'user_id' => $userId,
         ];
