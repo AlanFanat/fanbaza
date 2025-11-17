@@ -520,6 +520,115 @@
             width: 22px;
             height: 22px;
         }
+
+        /* ====== БАЗА ====== */
+.fb-nav {
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #eee;
+}
+
+.fb-nav .top {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Скрываем мобильное меню по умолчанию */
+.menu {
+    display: flex;
+}
+
+/* ====== МОБИЛЬНАЯ АДАПТАЦИЯ ====== */
+@media (max-width: 768px) {
+
+    /* Весь хедер — в одну колонку */
+    #header .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 15px;
+    }
+
+    /* Верхняя линия — прячем */
+    #topline {
+        display: none;
+    }
+
+    /* Поиск растягиваем на всю ширину */
+    .search {
+        width: 100%;
+    }
+
+    .search input.text {
+        width: 100%;
+        font-size: 16px;
+    }
+
+    /* Блок редакции скрываем на телефонах */
+    .priem {
+        display: none;
+    }
+
+    /* Языки — прячем */
+    .lang {
+        display: none;
+    }
+
+    /* Кнопка бургер-меню показывается */
+    .menubtn {
+        display: block;
+        width: 32px;
+        height: 32px;
+        background: url("/img/burger.svg") center no-repeat;
+        background-size: 24px;
+        cursor: pointer;
+    }
+
+    /* Верхнее меню скрыто по умолчанию */
+    .menu {
+        display: none;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    /* Активное меню */
+    .menu.active {
+        display: block;
+    }
+
+    .menu-pills {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .pill {
+        padding: 12px;
+        border-radius: 8px;
+        background: #f7f7f7;
+        width: 100%;
+    }
+
+    /* ЛК */
+    .lkmenu {
+        position: relative;
+    }
+
+    .lk-list {
+        right: 0;
+        left: auto;
+    }
+}
+.mobile-logout {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .mobile-logout {
+        display: block;
+        margin-top: 5px;
+    }
+}
+
     </style>
 
     {{-- Дополнительные стили из шаблонов через @push('styles') --}}
@@ -537,6 +646,18 @@
 
     <!-- Подвал -->
     <x-footer />
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+    const btn = document.querySelector(".menubtn");
+    const menu = document.querySelector(".menu");
 
+    if (btn && menu) {
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("active");
+        });
+    }
+});
+
+    </script>
 </body>
 </html>

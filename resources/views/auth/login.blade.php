@@ -36,9 +36,10 @@
 
             <div style="display:flex; justify-content:space-between; align-items:center; margin-top:5px;">
                 @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" style="font-size:0.9em; color:#2563eb; text-decoration:none;">
+                    {{-- <a href="{{ route('password.request') }}" style="font-size:0.9em; color:#2563eb; text-decoration:none;">
                         Забыли пароль?
-                    </a>
+                    </a> --}}
+                    <p>Забыли пароль? Ахахахахахахахахахахааххаах</p>
                 @endif
 
                 <button type="submit" style="background:#f59e0b; border:none; color:#111827; padding:10px 18px; border-radius:999px; font-weight:bold; cursor:pointer;">

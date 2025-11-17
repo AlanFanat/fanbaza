@@ -75,6 +75,16 @@
                     @else
                         <a href="{{ route('register') }}" class="pill accent">Присоединиться</a>
                     @endauth
+                    @auth
+    {{-- Кнопка выйти — показывать только на телефонах --}}
+    <form method="POST" action="{{ route('logout') }}" class="mobile-logout">
+        @csrf
+        <button type="submit" class="pill" style="width: 100%; text-align: left;">
+            Выйти
+        </button>
+    </form>
+@endauth
+
                 </div>
             </div>
         </div>

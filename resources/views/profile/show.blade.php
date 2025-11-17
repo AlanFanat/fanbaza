@@ -6,10 +6,30 @@
             </div>
             <div class="profile-info">
                 <h1>{{ $profileUser->name }}</h1>
-                <p class="profile-email">{{ $profileUser->email }}</p>
+                {{-- <p class="profile-email">{{ $profileUser->email }}</p> --}}
                 <p class="profile-stats">
                     Всего постов: <strong>{{ $posts->total() }}</strong>
                 </p>
+
+                {{-- 🆕 БЛОК С НОВЫМИ ПОЛЯМИ --}}
+                <div class="profile-details mt-4">
+                    <h3 style="font-size: 1.25em; margin-bottom: 0.5em;">Дополнительная информация</h3>
+                    <ul style="list-style: none; padding: 0;">
+                        <li style="margin-bottom: 0.4em;">
+                            <strong>💉 Группа крови:</strong> {{ $profileUser->blood_type ?? 'Не указано' }}
+                        </li>
+                        <li style="margin-bottom: 0.4em;">
+                            <strong>✨ Знак зодиака:</strong> {{ $profileUser->zodiac_sign ?? 'Не указано' }}
+                        </li>
+                        <li style="margin-bottom: 0.4em;">
+                            <strong>🐾 Любимое животное:</strong> {{ $profileUser->favorite_animal ?? 'Не указано' }}
+                        </li>
+                        <li style="margin-bottom: 0.4em;">
+                            <strong>💌 Сокровенное желание:</strong> {{ $profileUser->secret_wish ?? 'Не указано' }}
+                        </li>
+                    </ul>
+                </div>
+                {{-- -------------------------- --}}
             </div>
         </div>
 
@@ -53,7 +73,7 @@
             }
             .profile-card {
                 display: flex;
-                align-items: center;
+                align-items: top;
                 gap: 20px;
                 background: #fff;
                 padding: 20px;

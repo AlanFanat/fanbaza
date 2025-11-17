@@ -22,6 +22,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'blood_type',
+        'zodiac_sign',
+        'favorite_animal',
+        'secret_wish',
     ];
 
     /**

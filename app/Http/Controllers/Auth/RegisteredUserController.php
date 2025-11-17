@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use App\Models\Post;
 
 class RegisteredUserController extends Controller
 {
@@ -39,6 +40,18 @@ class RegisteredUserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+
+            // Ваши новые поля
+            'blood_type' => $request->blood_type,
+            'zodiac_sign' => $request->zodiac_sign,
+            'favorite_animal' => $request->favorite_animal,
+            'secret_wish' => $request->secret_wish,
+        ]);
+
+        Post::create([
+            'user_id' => $user->id,
+            'title' => 'Я тут впервые)))',
+            'body' => "Привет, я зарегистрировался, меня зовут {$user->name} и мое сокровенное желание: {$user->secret_wish}",
         ]);
 
         event(new Registered($user));
