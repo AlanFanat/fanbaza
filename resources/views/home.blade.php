@@ -1,10 +1,5 @@
 <x-layout title="Посты">
-    <div class="blog-container py-5">        
-        {{-- Заголовок и кнопка создания --}}
-        <div class="blog-header">
-            <h2>Блог</h2>
-            <a href="{{ route('post.create') }}" class="create-post-button">➕ Создать новый пост</a>
-        </div>
+    <div class="blog-container py-5">
         {{-- Раздел без постов --}}
         @if ($posts->isEmpty())
             <div class="alert alert-warning text-center py-5 shadow-sm" role="alert">
@@ -15,10 +10,10 @@
             {{-- Список постов в виде адаптивной сетки --}}
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
             @foreach ($posts as $post)
-                <article class="post">
+                <article class="post" id="post-{{ $post->id }}">
                 <h2 class="post-title">{{ $post->title }}</h2>
                 <div class="post-meta">
-                    Автор: <a href="#" class="post-author">{{ $post->user->name }}</a>
+                    Автор: <a href="{{ route('profile.show', $post->user) }}" class="post-author">{{ $post->user->name }}</a>
                 </div>
                 <div class="post-content">
                     <p>
