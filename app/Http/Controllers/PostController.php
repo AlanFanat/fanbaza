@@ -13,7 +13,11 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::latest()->get();
+        $posts = Post::query()
+            ->with('user')
+            ->withVoteCounters()
+            ->latest()
+            ->get();
         return view('home', compact('posts'));
     }
 
