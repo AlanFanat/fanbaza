@@ -2,36 +2,40 @@
     <div class="blog-container py-5">        
         {{-- Заголовок и кнопка создания --}}
         <div class="blog-header">
-            <h2>Блог</h2>
-            <a href="{{ route('post.create') }}" class="create-post-button">➕ Создать новый пост</a>
+            <div>
+                <p class="eyebrow">Лента сообщества</p>
+                <h2>Блог</h2>
+                <p class="subtitle">Читайте истории участников и создавайте свои посты</p>
+            </div>
+            <a href="{{ route('post.create') }}" class="create-post-button">➕ Создать пост</a>
         </div>
+
         {{-- Раздел без постов --}}
         @if ($posts->isEmpty())
-            <div class="alert alert-warning text-center py-5 shadow-sm" role="alert">
-                <h4 class="alert-heading">Нет ни одного поста! 😔</h4>
-                <p>Будьте первыми, кто поделится своими мыслями. Нажмите на кнопку выше, чтобы начать!</p>
+            <div class="empty-state shadow-sm">
+                <h4>Пока записей нет</h4>
+                <p>Станьте первым автором и поделитесь своими мыслями с сообществом.</p>
+                <a href="{{ route('post.create') }}" class="btn submit-btn mt-3">Написать пост</a>
             </div>
         @else
-            {{-- Список постов в виде адаптивной сетки --}}
-            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            {{-- Список постов --}}
+            <div class="posts-grid">
             @foreach ($posts as $post)
-                <article class="post">
-                <h2 class="post-title">{{ $post->title }}</h2>
-                <div class="post-meta">
-                    Автор: <a href="#" class="post-author">{{ $post->user->name }}</a>
-                </div>
-                <div class="post-content">
-                    <p>
-                        {{ $post->body }}
-                    </p>
-                </div>
-                {{-- <div class="post-time">
-                    {{ $post->created_at }}
-                </div> --}}
-                <div class="post-actions">
-                    <button class="like-button" data-post-id="1">👍 Лайк (<span class="like-count">{{ $post->likes_count }}</span>)</button>
-                    <button class="dislike-button" data-post-id="1">👎 Дизлайк (<span class="dislike-count">{{ $post->dislikes_count }}</span>)</button>
-                </div>
+                <article class="post-card">
+                    <div class="post-head">
+                        <h2 class="post-title">{{ $post->title }}</h2>
+                        <div class="post-meta">
+                            Автор: <a href="#" class="post-author">{{ $post->user->name }}</a>
+                            <span class="post-time">• {{ $post->created_at->diffForHumans() }}</span>
+                        </div>
+                    </div>
+                    <div class="post-content">
+                        <p>{{ $post->body }}</p>
+                    </div>
+                    <div class="post-actions">
+                        <button class="like-button" data-post-id="{{ $post->id }}">👍 Лайк (<span class="like-count">{{ $post->likes_count }}</span>)</button>
+                        <button class="dislike-button" data-post-id="{{ $post->id }}">👎 Дизлайк (<span class="dislike-count">{{ $post->dislikes_count }}</span>)</button>
+                    </div>
                 </article>
             @endforeach
             </div>
@@ -45,114 +49,165 @@
         @endif
     </div>
 
-    {{-- Добавление простого CSS для эффекта наведения --}}
+    {{-- Стили страницы --}}
     @push('styles')
         <style>
+            .blog-container {
+                max-width: 900px;
+                margin: 0 auto;
+                padding: 0 20px 60px;
+            }
+
             .blog-header {
-            max-width: 800px;
-            margin: 30px auto 15px auto; /* Отступ сверху и снизу */
-            padding: 0 20px;
-            display: flex; /* Используем Flexbox для выравнивания */
-            justify-content: space-between; /* Распределяем элементы по краям */
-            align-items: center; /* Выравниваем по центру по вертикали */
-        }
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 30px;
+                margin-bottom: 10px;
+            }
 
-        .blog-header h2 {
-            font-size: 2.5em; /* Огромная надпись "Блог" */
-            color: #f39c12;
-            margin: 0;
-        }
+            .eyebrow {
+                text-transform: uppercase;
+                font-size: 0.85rem;
+                letter-spacing: 0.15em;
+                color: #9ca3af;
+                margin-bottom: 6px;
+            }
 
-        .create-post-button {
-            padding: 10px 20px;
-            background-color: #f39c12; /* Оранжевый цвет */
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            text-decoration: none; /* Убираем подчеркивание, если это <a> */
-            transition: background-color 0.3s;
-            white-space: nowrap; /* Не даем тексту кнопки переноситься */
-        }
+            .blog-header h2 {
+                font-size: 2.5rem;
+                color: #f39c12;
+                margin: 0;
+            }
 
-        .create-post-button:hover {
-            background-color: #e65c00;
-        }
-        /* Контейнер для постов */
-        .blog-container {
-            max-width: 800px;
-            margin: 30px auto;
-            padding: 0 20px;
-        }
+            .subtitle {
+                color: #6b7280;
+                margin: 10px 0 0;
+            }
 
-        /* Стили для отдельного поста */
-        .post {
-            background-color: white;
-            padding: 25px;
-            margin-bottom: 25px;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
+            .create-post-button {
+                padding: 12px 24px;
+                background-color: #f39c12;
+                color: #fff;
+                border-radius: 8px;
+                font-weight: 600;
+                text-decoration: none;
+                transition: box-shadow 0.3s ease, transform 0.3s ease, background-color 0.3s;
+                white-space: nowrap;
+                box-shadow: 0 10px 20px rgba(243, 156, 18, 0.2);
+            }
 
-        .post-title {
-            color: #1f2937;
-            border-bottom: 2px solid #eee;
-            padding-bottom: 10px;
-            margin-top: 0;
-        }
+            .create-post-button:hover {
+                background-color: #e65c00;
+                transform: translateY(-2px);
+            }
 
-        /* Мета-информация (Автор) */
-        .post-meta, .post-time {
-            font-size: 0.9em;
-            color: #666;
-            margin-bottom: 15px;
-        }
+            .empty-state {
+                background: #fff;
+                border-radius: 12px;
+                padding: 40px;
+                text-align: center;
+                border: 1px dashed #fcd5b5;
+            }
 
-        .post-author {
-            color: #28a745; /* Зеленый цвет для ссылки на автора */
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
+            .posts-grid {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
 
-        .post-author:hover {
-            color: #1e7e34;
-            text-decoration: underline;
-        }
+            .post-card {
+                background-color: #fff;
+                border-radius: 14px;
+                padding: 30px;
+                box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
 
-        /* Кнопки лайков/дизлайков */
-        .post-actions {
-            margin-top: 20px;
-            padding-top: 15px;
-            border-top: 1px dashed #ccc;
-            display: flex;
-            gap: 10px;
-        }
+            .post-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 20px 45px rgba(0, 0, 0, 0.12);
+            }
 
-        .post-actions button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s, transform 0.1s;
-        }
+            .post-title {
+                color: #1f2937;
+                margin-bottom: 10px;
+            }
 
-        .like-button {
-            background-color: #28a745; /* Зеленый */
-            color: white;
-        }
+            .post-meta {
+                font-size: 0.95rem;
+                color: #6b7280;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
 
-        .dislike-button {
-            background-color: #dc3545; /* Красный */
-            color: white;
-        }
+            .post-author {
+                color: #28a745;
+                text-decoration: none;
+                font-weight: 600;
+            }
 
-        .post-actions button:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-        }
+            .post-time {
+                color: #9ca3af;
+            }
+
+            .post-content {
+                color: #374151;
+                line-height: 1.6;
+                margin: 15px 0 20px;
+            }
+
+            .post-actions {
+                display: flex;
+                gap: 12px;
+                flex-wrap: wrap;
+            }
+
+            .post-actions button {
+                padding: 10px 18px;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                color: #fff;
+                transition: transform 0.2s ease, box-shadow 0.2s ease;
+            }
+
+            .like-button {
+                background-color: #28a745;
+                box-shadow: 0 10px 20px rgba(40, 167, 69, 0.2);
+            }
+
+            .dislike-button {
+                background-color: #dc3545;
+                box-shadow: 0 10px 20px rgba(220, 53, 69, 0.2);
+            }
+
+            .post-actions button:hover {
+                transform: translateY(-2px);
+            }
+
+            .btn.submit-btn {
+                display: inline-block;
+                padding: 12px 24px;
+                border-radius: 8px;
+                background-color: #28a745;
+                color: #fff;
+                font-weight: 600;
+                text-decoration: none;
+            }
+
+            @media (max-width: 640px) {
+                .blog-header {
+                    flex-direction: column;
+                    align-items: flex-start;
+                }
+
+                .post-card {
+                    padding: 24px;
+                }
+            }
         </style>
     @endpush
 </x-layout>
